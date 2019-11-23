@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Create User</title>
+<title>Create Book</title>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,36 +37,47 @@
 
 	<div class="container" style="margin-top: 5%">
 
-		<form role="form" method="POST" th:action="@{/create-user}" th:object="${user}">
+		<form role="form" method="POST" th:action="@{/create-book}" th:object="${book}">
 			<div class="col-lg-10 col-xl-7 mx-auto">
 				<div class="card card-signin flex-row my-5">
 					<div class="card-img-left d-none d-md-flex">
 						<!-- Background image for card set in CSS! -->
 					</div>
 					<div class="card-body">
-						<h4 class="card-title" style="text-align: center">Create User</h4>
+						<h4 class="card-title" style="text-align: center">Create Book</h4>
 						<br/>
 						<br/>
 						<div class="row">
 							<div class="col">
 								<div class="md-form mt-0">
-									<label for="firstname">Name</label> <input type="text"
-										class="form-control" th:field="*{firstname}" id="firstname"
+									<label for="bookName">Book Name</label> <input type="text"
+										class="form-control" th:field="*{bookName}" id="bookName"
 										th:required="required">
 								</div>
 							</div>
 							<div class="col">
 								<div class="md-form mt-0">
-									<label for="lastname">Surname</label> <input type="text"
-										class="form-control" th:field="*{lastname}" id="lastname"
+									<label for="isbn">ISBN No.</label> <input type="text"
+										class="form-control" th:field="*{isbn}" id="isbn"
+										th:required="required">
+								</div>
+							</div>
+							<div class="col">
+								<div class="md-form mt-0">
+									<label for="totalCopies">Total Copies</label> <input type="number"
+										class="form-control" th:field="*{totalCopies}" id="totalCopies"
 										th:required="required">
 								</div>
 							</div>
 						</div>
+						
+						<div class="form-row">
+						<div class="col">
 						<div class="md-form mt-0">
-							<label for="useraddress">Address</label> <input type="text"
-								class="form-control" th:field="*{useraddress}" id="useraddress"
-								th:required="required">
+							<label for="bookSummary">Book Summary</label> <textarea rows="3" class="form-control" 
+							th:field="*{bookSummary}" id="bookSummary" th:required="required"></textarea>
+						</div>
+						</div>
 						</div>
 
 						<div class="form-row">

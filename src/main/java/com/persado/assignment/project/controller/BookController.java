@@ -3,12 +3,17 @@ package com.persado.assignment.project.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.persado.assignment.project.model.Book;
+import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.service.BookService;
 
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +25,38 @@ public class BookController {
 
 	@Autowired
 	BookService bookService;
+	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = { "/create-book" }, method = RequestMethod.GET)
+	public ModelAndView createUser() {
+		
+		ModelAndView model = new ModelAndView();
+		model.addObject("book", new Book());
+		model.setViewName("book/create-book");
+
+		return model;
+	}
+	
+	@RequestMapping(value = { "/create-book" }, method = RequestMethod.POST)
+	public ModelAndView createUser(@Valid Book book, BindingResult bindingResult) {
+		
+		ModelAndView model = new ModelAndView();
+		if (bindingResult.hasErrors()) {
+			model.setViewName("book/create-book");
+			return model;
+		}
+		
+		bookService.createBook(book);
+    	model.addObject("msg", "Book has been added to the library successfully.");
+    	model.addObject("book", new Book());
+		model.setViewName("book/create-book");
+
+		return model;
+	}
 	
 	@ApiOperation(value = "Find all books", notes = "Find all books in the database and return them as a list.")
     @ApiResponses(value = {
