@@ -1,4 +1,4 @@
-package com.persado.assignment.project.model.jpa;
+package com.persado.assignment.project.model;
 
 import java.time.LocalDate;
 

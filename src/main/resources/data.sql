@@ -1,17 +1,17 @@
 DROP TABLE IF EXISTS user cascade;
 
-CREATE TABLE user (
+CREATE TABLE IF NOT EXISTS user (
     user_id integer not null,
-    "name" varchar(200),
-    "lastname" varchar(200),
-    "address" varchar(200),
+    firstname varchar(200),
+    lastname varchar(200),
+    useraddress varchar(200),
     total_book_loaned integer,
     primary key(user_id)
 );
 
 DROP TABLE IF EXISTS book cascade;
 
-CREATE TABLE book (
+CREATE TABLE IF NOT EXISTS book (
     book_id integer not null,
     book_name varchar(200),
     book_summary varchar(200),
@@ -23,7 +23,7 @@ CREATE TABLE book (
 
 DROP TABLE IF EXISTS book_loan cascade;
 
-CREATE TABLE book_loan (
+CREATE TABLE IF NOT EXISTS book_loan (
     book_loan_id integer not null,
     user_id integer not null,
     book_id integer not null,

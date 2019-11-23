@@ -1,4 +1,4 @@
-package com.persado.assignment.project.model.jpa;
+package com.persado.assignment.project.model;
 
 import java.util.Set;
 
@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Table(name = "user")
 @Data
@@ -28,14 +29,14 @@ public class User {
 	private Integer userId;
 
 	@Column(length = 200)
-	private String name;
-	
+	private String firstname;
+
 	@Column(length = 200)
 	private String lastname;
-	
+
 	@Column(length = 200)
-	private String address;
-	
+	private String useraddress;
+
 	@Column(name = "total_book_loaned")
 	private Integer totalBookedLoaned;
 
