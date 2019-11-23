@@ -55,13 +55,15 @@ public class UserController {
 		return model;
 	}
     
-	/*
-	 * @RequestMapping(value = "/users", method = RequestMethod.GET) public
-	 * ModelAndView getAllUsers() {
-	 * 
-	 * ModelAndView model = new ModelAndView(); model.addObject("users",
-	 * userService.findAllUsers()); model.setViewName("/user/list");
-	 * 
-	 * return model; }
-	 */
+	
+	@RequestMapping(value = "/all-users", method = RequestMethod.GET)
+	public ModelAndView getAllUsers() {
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("allUsers", userService.findAllUsers());
+		model.setViewName("user/all-users");
+
+		return model;
+	}
+
 }
