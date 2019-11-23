@@ -1,7 +1,6 @@
 package com.persado.assignment.project.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.persado.assignment.project.model.Book;
-import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.service.BookService;
 
 import io.swagger.annotations.ApiOperation;
@@ -65,11 +63,14 @@ public class BookController {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
-    @RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.GET)
-    public List<Book> findAllBooks() {
+    @RequestMapping(value = "/all-books", headers = "Accept=application/json", method = RequestMethod.GET)
+    public ModelAndView findAllBooks() {
 
-        List<Book> books = bookService.findAll();
-        return books;
+		ModelAndView model = new ModelAndView();
+		model.addObject("allBooks", bookService.findAll());
+		model.setViewName("book/all-books");
+
+        return model;
     }
 	
 }
