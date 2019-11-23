@@ -73,4 +73,14 @@ public class BookController {
         return model;
     }
 	
+	@RequestMapping(value = "/loan-books", headers = "Accept=application/json", method = RequestMethod.GET)
+	public ModelAndView findAllBooksForLoan() {
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("booksForLoan", bookService.findBooksForLoan());
+		model.setViewName("book/loan-books");
+
+        return model;
+    }
+	
 }

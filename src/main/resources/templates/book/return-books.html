@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Books For Return</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<!-- Bootstrap core CSS -->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/css/mdb.min.css"
+	rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.10/font-awesome-animation.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+	integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+	crossorigin="anonymous"></script>
+<link rel="shortcut icon"
+	href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/favicon.ico">
+
+<link th:href="@{/css/footer.css}" href="/css/footer.css"
+	rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div th:replace="/navbar :: navbar"></div>
+
+	<div class="container" style="margin-top: 5%">
+
+		<form role="form" method="GET" th:action="@{/return-books}">
+
+			<br>
+			<h3 style="text-align: center">Books For Return</h3>
+			<br />
+			<div class="table-responsive">
+				<table class="table table-hover table-sm">
+					<thead style="background-color: #A9A9A9">
+						<tr>
+							<td style="font-weight: bold">Book Id</td>
+							<td style="font-weight: bold">Name</td>
+							<td style="font-weight: bold">Loaned By</td>
+							<td style="font-weight: bold">Actions</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="book : ${booksForReturn}">
+							<td th:text="${book?.bookId}">id</td>
+							<td th:text="${book?.bookName}">name</td>
+							<td>Dropdown of users who have this book</td>
+							<td>
+								<button type="button" class="btn-warning btn-floating btn-sm"
+                                     title="Register Return">
+                                    <i class="fa fa-undo" aria-hidden="true"></i>
+                                </button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</form>
+
+	</div>
+	</div>
+
+	</div>
+
+	<footer class="footer">
+		<div th:replace="/footer :: footer">Copyright &copy; Thomas
+			Sdongos</div>
+	</footer>
+	<!-- JQuery -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+</body>
+</html>

@@ -21,17 +21,28 @@ public class BookService {
 	 */
 	public void createBook(Book book) {
 
+		book.setAvailableCopies(book.getTotalCopies());
 		bookRepository.save(book);
 	}
 
 	/**
+	 * Find all books
 	 * 
-	 * 
-	 * @return
+	 * @return List<Book>
 	 */
 	public List<Book> findAll() {
 
 		return bookRepository.findAll();
+	}
+	
+	/**
+	 * Find all books available for loan
+	 * 
+	 * @return List<Book>
+	 */
+	public List<Book> findBooksForLoan() {
+
+		return bookRepository.findBooksForLoan();
 	}
 
 }
