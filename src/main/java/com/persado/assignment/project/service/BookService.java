@@ -44,5 +44,16 @@ public class BookService {
 
 		return bookRepository.findBooksForLoan();
 	}
+	
+	/**
+	 * Find book entity by book ID
+	 * 
+	 * @param bookId	The book ID
+	 * @return	Book
+	 */
+	public Book findByBookId(Integer bookId) {
+		
+		return bookRepository.findByBookId(bookId);
+	}
 
 }

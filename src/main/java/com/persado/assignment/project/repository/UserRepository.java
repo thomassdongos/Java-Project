@@ -8,4 +8,5 @@ import com.persado.assignment.project.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
+	User findByUserId(Integer userId);
 }

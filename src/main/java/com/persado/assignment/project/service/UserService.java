@@ -34,4 +34,15 @@ public class UserService {
 		return userRepository.findAll();
 	}
 	
+	/**
+	 * Find user entity by user ID
+	 * 
+	 * @param userId	The user ID
+	 * @return	User
+	 */
+	public User findByUserId(Integer userId) {
+		
+		return userRepository.findByUserId(userId);
+	}
+	
 }
