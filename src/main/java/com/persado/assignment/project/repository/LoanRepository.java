@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
 import com.persado.assignment.project.model.User;
 
@@ -18,4 +19,7 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
 	
 	@Query(value = "SELECT e.user FROM #{#entityName} e where e.book.bookId = :bookId  ")
 	List<User> findUsersWithBook(@Param("bookId") Integer bookId);
+	
+	@Query(value = "SELECT e.book FROM #{#entityName} e where e.user.userId = :userId  ")
+	List<Book> findBooksUserLoaned(@Param("userId") Integer userId);
 }

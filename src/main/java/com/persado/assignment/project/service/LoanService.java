@@ -62,4 +62,11 @@ public class LoanService {
 		
 		return loanRepository.findUsersWithBook(bookId);
 	}
+	
+	public List<Book> findBooksUserLoaned(Integer userId) {
+		
+		return loanRepository.findBooksUserLoaned(userId);
+	}
+	
+	
 }

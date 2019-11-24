@@ -1,6 +1,6 @@
 package com.persado.assignment.project.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,6 +41,6 @@ public class User {
 	private Integer totalBookedLoaned;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Book> bookList;
+	private List<Book> bookList;
 
 }

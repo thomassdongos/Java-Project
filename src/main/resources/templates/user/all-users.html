@@ -50,7 +50,7 @@
 							<td style="font-weight: bold">Name</td>
 							<td style="font-weight: bold">Lastname</td>
 							<td style="font-weight: bold">Address</td>
-							<td style="font-weight: bold">Total Books Loaned</td>
+							<td style="font-weight: bold">Books Loaned</td>
 							<td style="font-weight: bold">Actions</td>
 						</tr>
 					</thead>
@@ -60,7 +60,13 @@
 							<td th:text="${user?.firstname}">name</td>
 							<td th:text="${user?.lastname}">lastname</td>
 							<td th:text="${user?.useraddress}">address</td>
-							<td th:text="${user?.totalBookedLoaned}">books loaned</td>
+							<td> 
+								<select class="mdb-select md-form" id="tagList">
+								   <option value="" disabled selected>Books Loaned</option>
+								   <option th:each="book : ${user.bookList}" th:value="${book?.bookId}" 
+								   th:text="${book?.bookName}"></option>
+								</select>
+							</td>
 							<td>
 								<button type="button" class="btn-danger btn-floating btn-sm"
                                      title="Delete user">
