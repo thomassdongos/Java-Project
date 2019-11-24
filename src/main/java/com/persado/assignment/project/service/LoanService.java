@@ -63,6 +63,17 @@ public class LoanService {
 		return loanRepository.findUsersWithBook(bookId);
 	}
 	
+	
+	public void returnBook(Integer bookId, Integer userId) {
+		
+		bookService.addAvailableCopies(bookId);
+		
+		Loan loan = loanRepository.findBookLoaned(bookId, userId);
+		loan.setLoaned(false);
+		loan.setReturnedDate(LocalDate.now());
+		loanRepository.saveAndFlush(loan);
+	}
+	
 	public List<Book> findBooksUserLoaned(Integer userId) {
 		
 		return loanRepository.findBooksUserLoaned(userId);

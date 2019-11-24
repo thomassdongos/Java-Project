@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.User;
-import com.persado.assignment.project.service.BookService;
 import com.persado.assignment.project.service.LoanService;
 import com.persado.assignment.project.service.UserService;
 
@@ -22,9 +21,6 @@ import com.persado.assignment.project.service.UserService;
 @RestController
 public class UserController {
 
-	@Autowired
-	private BookService bookService;
-	
 	@Autowired
 	private UserService userService;
 	

@@ -70,6 +70,19 @@ public class BookService {
 	}
 	
 	/**
+	 * Add available copies.
+	 * 
+	 * @param bookId	The book ID
+	 */
+	public Book addAvailableCopies(Integer bookId) {
+
+		Book bookEnt = bookRepository.findByBookId(bookId);
+		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() + 1);
+		bookRepository.saveAndFlush(bookEnt);
+		return bookEnt;
+	}
+	
+	/**
 	 * Delete book by ID.
 	 * 
 	 * @param bookId	The book ID
@@ -78,5 +91,5 @@ public class BookService {
 		
 		bookRepository.deleteById(bookId);
 	}
-
+	
 }

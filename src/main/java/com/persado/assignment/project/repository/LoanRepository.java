@@ -22,4 +22,8 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
 	
 	@Query(value = "SELECT e.book FROM #{#entityName} e where e.user.userId = :userId  ")
 	List<Book> findBooksUserLoaned(@Param("userId") Integer userId);
+	
+	@Query(value = "SELECT e FROM #{#entityName} e where e.user.userId = :userId AND e.book.bookId = :bookId AND e.isLoaned = TRUE  ")
+	Loan findBookLoaned(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
+	
 }

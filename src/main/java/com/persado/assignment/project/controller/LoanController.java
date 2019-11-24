@@ -81,4 +81,30 @@ public class LoanController {
 
 		return model;
 	}
+	
+	@RequestMapping(value = "/return-books", headers = "Accept=application/json", method = RequestMethod.POST)
+	public ModelAndView returnBooks(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = true) Integer userId) {
+
+		loanService.returnBook(bookId, userId); 
+		
+		// I keep the book entities as unique
+		Set<Book> allBooks = new HashSet<>();
+		List<Book> bookList = new ArrayList<>();
+ 		
+		List<Loan> allLoaned = loanService.findAllBooksForReturn();
+		for (Loan loan : allLoaned) {
+			allBooks.add(loan.getBook());
+		}
+		bookList.addAll(allBooks);
+		
+		for (Book book : bookList) {
+			book.setUsersForLoan(loanService.findUsersWithBook(book.getBookId()));
+		}
+
+		ModelAndView model = new ModelAndView();
+		model.addObject("booksForReturn", bookList);
+		model.setViewName("book/return-books");
+
+		return model;
+	}
 }
