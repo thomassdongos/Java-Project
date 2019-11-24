@@ -56,9 +56,15 @@
 						<tr th:each="book : ${booksForReturn}">
 							<td th:text="${book?.bookId}">id</td>
 							<td th:text="${book?.bookName}">name</td>
-							<td>Dropdown of users who have this book</td>
+							<td> 
+								<select class="mdb-select md-form" id="tagList">
+								   <option value="" disabled selected>Loaned By</option>
+								   <option th:each="user : ${book.usersForLoan}" th:value="${user?.userId}" 
+								   th:text="${user?.firstname}"></option>
+								</select>
+							</td>
 							<td>
-								<button type="button" class="btn-warning btn-floating btn-sm"
+								<button type="button" class="btn-info btn-floating btn-sm"
                                      title="Register Return">
                                     <i class="fa fa-undo" aria-hidden="true"></i>
                                 </button>
