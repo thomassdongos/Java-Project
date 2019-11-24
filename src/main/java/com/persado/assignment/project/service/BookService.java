@@ -64,7 +64,7 @@ public class BookService {
 	public Book reduceAvailableCopies(Integer bookId) {
 
 		Book bookEnt = bookRepository.findByBookId(bookId);
-		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() - 1);
+		bookEnt.setAvailableCopies(bookEnt.getAvailableCopies() - 1);
 		bookRepository.saveAndFlush(bookEnt);
 		return bookEnt;
 	}
@@ -77,7 +77,7 @@ public class BookService {
 	public Book addAvailableCopies(Integer bookId) {
 
 		Book bookEnt = bookRepository.findByBookId(bookId);
-		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() + 1);
+		bookEnt.setAvailableCopies(bookEnt.getAvailableCopies() + 1);
 		bookRepository.saveAndFlush(bookEnt);
 		return bookEnt;
 	}
