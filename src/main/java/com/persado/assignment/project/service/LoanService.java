@@ -41,15 +41,15 @@ public class LoanService {
 	 */
 	public void saveLoan(Integer bookId, Integer userId) {
 		
-		bookService.reduceAvailableCopies(bookId);
+		Book bookEnt = bookService.reduceAvailableCopies(bookId);
 		
 		Loan loan = new Loan();
 		loan.setUser(userService.findByUserId(userId));
-		loan.setBook(bookService.findByBookId(bookId));
+		loan.setBook(bookEnt);
 		loan.setLoanDate(LocalDate.now());
 		loan.setLoaned(true);
 		loan.setReturnedDate(null);
-		loanRepository.save(loan);
+		loanRepository.saveAndFlush(loan);
 	}
 	
 	/**

@@ -61,11 +61,12 @@ public class BookService {
 	 * 
 	 * @param bookId	The book ID
 	 */
-	public void reduceAvailableCopies(Integer bookId) {
+	public Book reduceAvailableCopies(Integer bookId) {
 
 		Book bookEnt = bookRepository.findByBookId(bookId);
 		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() - 1);
 		bookRepository.saveAndFlush(bookEnt);
+		return bookEnt;
 	}
 	
 	/**

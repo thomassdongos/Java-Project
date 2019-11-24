@@ -37,7 +37,7 @@
 
 	<div class="container" style="margin-top: 5%">
 
-		<form role="form" method="GET" th:action="@{/loan-books}">
+		
 
 			<br>
 			<h3 style="text-align: center">Books For Loan</h3>
@@ -55,28 +55,32 @@
 					</thead>
 					<tbody>
 						<tr th:each="book : ${booksForLoan}">
+							<form role="form" method="POST" th:href="@{/loan-books}">
+							<input type="hidden" th:value="${book?.bookId}" name="bookId"/>
+							
 							<td th:text="${book?.bookId}">id</td>
 							<td th:text="${book?.bookName}">name</td>
 							<td th:text="${book?.availableCopies}">available copies</td>
 							<td> 
-								<select class="mdb-select md-form" id="tagList">
+								<select class="mdb-select md-form" id="tagList" th:name="userId">
 								   <option value="" disabled selected>Available Users</option>
 								   <option th:each="user : ${book.usersForLoan}" th:value="${user?.userId}" 
 								   th:text="${user?.firstname}"></option>
 								</select>
 							</td>
 							<td>
-							  <button type="submit" id="submitButton" class="btn-success btn-floating btn-sm"
+							  <button type="submit" class="btn-success btn-floating btn-sm"
                                      title="Apply Loan">
 							  	<i class="fa fa-book" aria-hidden="true"></i> 
 							  </button>
 							</td>
+							</form>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 
-		</form>
+		
 
 	</div>
 

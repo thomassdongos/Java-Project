@@ -4,20 +4,21 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
+import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.service.BookService;
 import com.persado.assignment.project.service.LoanService;
+import com.persado.assignment.project.service.UserService;
 
 @RestController
 public class LoanController {
@@ -27,22 +28,32 @@ public class LoanController {
 	
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private UserService userService;
 
-	@RequestMapping(value = "/loan-book", headers = "Accept=application/json", method = RequestMethod.POST)
-	public ModelAndView loanBook(@Valid Loan loan, BindingResult bindingResult) {
+	@RequestMapping(value = "/loan-books", headers = "Accept=application/json", method = RequestMethod.POST)
+	public ModelAndView loanBook(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = true) Integer userId) {
 
+		loanService.saveLoan(bookId, userId); 
 		ModelAndView model = new ModelAndView();
-		if (bindingResult.hasErrors()) {
-			model.addObject("allBooks", bookService.findAll());
-			model.setViewName("book/all-books");
-			return model;
+		
+		List<Book> allBooks = bookService.findAll();
+		for (Book book : allBooks) {
+			List<User> userWithCurrentBook = loanService.findUsersWithBook(book.getBookId());
+			List<User> allUsers = userService.findAllUsers();
+			List<User> uniqueElementsFromBothList = new ArrayList<>();
+			// Unique element from allUsers list to fill the dropdown
+			uniqueElementsFromBothList.addAll(
+					allUsers.stream()
+			        .filter(user -> !userWithCurrentBook.contains(user))
+			        .collect(Collectors.toList()));
+			book.setUsersForLoan(uniqueElementsFromBothList);
 		}
 
-		loanService.saveLoan(loan.getBook().getBookId(), loan.getUser().getUserId()); 
-
 		model.addObject("msg", "Loan has been completed successfully.");
-		model.addObject("allBooks", bookService.findAll());
-		model.setViewName("book/all-books");
+		model.addObject("booksForLoan", allBooks);
+		model.setViewName("book/loan-books");
 
 		return model;
 	}
