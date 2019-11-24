@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -92,6 +93,52 @@ public class BookController {
 
         return model;
     }
+	
+	@RequestMapping(value = "/delete-book/{bookId}", method = RequestMethod.GET)
+	public ModelAndView deleteBook(@PathVariable Integer bookId) {
+		
+		Book bookForDeletion = bookService.findByBookId(bookId);
+		String bookName = bookForDeletion.getBookName();
+		
+		List<User> allUsers = loanService.findUsersWithBook(bookId);
+		if (!allUsers.isEmpty()) {
+			
+			List<Book> allBooks = bookService.findAll();
+			for (Book book : allBooks) {
+				List<User> allLoanedUsers = loanService.findUsersWithBook(book.getBookId());
+				book.setUsersForLoan(allLoanedUsers);
+			}
+			
+			StringBuilder allUsernames = new StringBuilder();
+			for (User user : allUsers) {
+				allUsernames.append(user.getFirstname() + ", ");
+			}
+			// Delete last comma
+			allUsernames.deleteCharAt(allUsernames.length() - 2);
+			
+			ModelAndView model = new ModelAndView();
+	    	model.addObject("msgBooks", "Book " + bookName + " cannot be deleted it is loaned by user: " + allUsernames);
+			model.addObject("allBooks", allBooks);
+			model.setViewName("book/all-books");
+			
+			return model;
+		}
+		
+		bookService.deleteBook(bookId);
+
+		List<Book> allBooks = bookService.findAll();
+		for (Book book : allBooks) {
+			List<User> allLoanedUsers = loanService.findUsersWithBook(book.getBookId());
+			book.setUsersForLoan(allLoanedUsers);
+		}
+		
+		ModelAndView model = new ModelAndView();
+    	model.addObject("msg", "Book " + bookName + " has been deleted successfully.");
+		model.addObject("allBooks", allBooks);
+		model.setViewName("book/all-books");
+
+		return model;
+	}
 	
 	@RequestMapping(value = "/loan-books", headers = "Accept=application/json", method = RequestMethod.GET)
 	public ModelAndView findAllBooksForLoan() {

@@ -57,7 +57,7 @@ public class BookService {
 	}
 	
 	/**
-	 * Reduce available copies
+	 * Reduce available copies.
 	 * 
 	 * @param bookId	The book ID
 	 */
@@ -66,6 +66,16 @@ public class BookService {
 		Book bookEnt = bookRepository.findByBookId(bookId);
 		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() - 1);
 		bookRepository.saveAndFlush(bookEnt);
+	}
+	
+	/**
+	 * Delete book by ID.
+	 * 
+	 * @param bookId	The book ID
+	 */
+	public void deleteBook(Integer bookId) {
+		
+		bookRepository.deleteById(bookId);
 	}
 
 }

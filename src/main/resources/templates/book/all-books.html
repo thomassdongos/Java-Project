@@ -39,6 +39,9 @@
 
 		<form role="form" method="GET" th:action="@{/all-users}">
 
+			<div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}"></div>
+			<div class="alert alert-danger" role="alert" th:if="${msgBooks}" th:utext="${msgBooks}"></div>
+
 			<br>
 			<h3 style="text-align: center">Books List</h3>
 			<br />
@@ -72,11 +75,33 @@
 								</select>
 							</td>
 							<td>
-								<button type="button" class="btn-danger btn-floating btn-sm"
-                                     title="Delete book">
+								<a type="button" class="btn-danger btn-floating btn-sm"
+                                     title="Delete book" data-toggle="modal" data-target="#myModal">
                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </button>
+                                </a>
+                                <!-- The Modal -->
+				                <div class="modal fade" id="myModal">
+				                    <div class="modal-dialog">
+				                        <div class="modal-content">
+				
+				                            <!-- Modal Header -->
+				                            <div class="modal-header">
+				                                <h4 class="modal-title">Are you sure you want to delete the book?</h4>
+				                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+				                            </div>
+				
+				                            <!-- Modal footer -->
+				                            <div class="modal-footer">
+				                            	<a th:href="|@{'/delete-book/' + ${book.bookId}}|" 
+				                                  type="button" class="btn-danger btn-floating btn-sm" 
+				                                  title="Delete book"> Yes</a>
+				                                <a type="button" class="btn-danger btn-floating btn-sm" data-dismiss="modal">Close</a>
+				                            </div>
+				                        </div>
+				                    </div>
+				                </div>
 							</td>
+							
 						</tr>
 					</tbody>
 				</table>
