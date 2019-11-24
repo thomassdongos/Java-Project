@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -44,5 +45,8 @@ public class Book {
 
 	@OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
 	List<Loan> loan;
+	
+	@Transient
+	List<User> usersForLoan;
 
 }

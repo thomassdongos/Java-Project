@@ -64,7 +64,13 @@
 							<td th:text="${book?.isbn}">isbn</td>
 							<td th:text="${book?.totalCopies}">total copies</td>
 							<td th:text="${book?.availableCopies}">available copies</td>
-							<td> Dropdown here </td>
+							<td> 
+								<select class="mdb-select md-form" id="usersLoaned">
+								   <option value="" disabled selected>Loaned By</option>
+								   <option th:each="user : ${book.usersForLoan}" th:value="${user?.userId}" 
+								   th:text="${user?.firstname}"></option>
+								</select>
+							</td>
 							<td>
 								<button type="button" class="btn-danger btn-floating btn-sm"
                                      title="Delete book">

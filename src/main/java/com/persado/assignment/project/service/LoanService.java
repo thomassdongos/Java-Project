@@ -6,7 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
+import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.repository.LoanRepository;
 
 @Service
@@ -34,10 +36,12 @@ public class LoanService {
 	/**
 	 * Save a loan entity when a user loans a book.
 	 * 
-	 * @param userId	The user ID
 	 * @param bookId	The book ID
+	 * @param userId	The user ID
 	 */
-	public void saveLoan(Integer userId, Integer bookId) {
+	public void saveLoan(Integer bookId, Integer userId) {
+		
+		bookService.reduceAvailableCopies(bookId);
 		
 		Loan loan = new Loan();
 		loan.setUser(userService.findByUserId(userId));
@@ -46,5 +50,16 @@ public class LoanService {
 		loan.setLoaned(true);
 		loan.setReturnedDate(null);
 		loanRepository.save(loan);
+	}
+	
+	/**
+	 * 
+	 * 
+	 * @param bookId
+	 * @return
+	 */
+	public List<User> findUsersWithBook(Integer bookId) {
+		
+		return loanRepository.findUsersWithBook(bookId);
 	}
 }

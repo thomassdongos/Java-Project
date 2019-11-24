@@ -55,5 +55,17 @@ public class BookService {
 		
 		return bookRepository.findByBookId(bookId);
 	}
+	
+	/**
+	 * Reduce available copies
+	 * 
+	 * @param bookId	The book ID
+	 */
+	public void reduceAvailableCopies(Integer bookId) {
+
+		Book bookEnt = bookRepository.findByBookId(bookId);
+		bookEnt.setAvailableCopies(bookEnt.getTotalCopies() - 1);
+		bookRepository.saveAndFlush(bookEnt);
+	}
 
 }

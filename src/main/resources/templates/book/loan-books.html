@@ -58,12 +58,18 @@
 							<td th:text="${book?.bookId}">id</td>
 							<td th:text="${book?.bookName}">name</td>
 							<td th:text="${book?.availableCopies}">available copies</td>
-							<td>Dropdown of users who don't have this book</td>
+							<td> 
+								<select class="mdb-select md-form" id="tagList">
+								   <option value="" disabled selected>Available Users</option>
+								   <option th:each="user : ${book.usersForLoan}" th:value="${user?.userId}" 
+								   th:text="${user?.firstname}"></option>
+								</select>
+							</td>
 							<td>
-								<button type="button" class="btn-success btn-floating btn-sm"
-                                     title="Accept Loan">
-                                    <i class="fa fa-book" aria-hidden="true"></i>
-                                </button>
+							  <button type="submit" id="submitButton" class="btn-success btn-floating btn-sm"
+                                     title="Apply Loan">
+							  	<i class="fa fa-book" aria-hidden="true"></i> 
+							  </button>
 							</td>
 						</tr>
 					</tbody>
@@ -71,9 +77,6 @@
 			</div>
 
 		</form>
-
-	</div>
-	</div>
 
 	</div>
 
