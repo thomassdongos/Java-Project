@@ -6,9 +6,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -79,8 +79,35 @@ public class UserController {
 		return model;
 	}
 	
-	@RequestMapping(value = "/deleteUser/{userId}", method = RequestMethod.DELETE)
-	public ModelAndView deleteUser(@RequestParam(value = "userId") Integer userId, BindingResult bindingResult) {
+	@RequestMapping(value = "/delete-user/{userId}", method = RequestMethod.GET)
+	public ModelAndView deleteUser(@PathVariable Integer userId) {
+		
+		User userForDeletion = userService.findByUserId(userId);
+		String userFullName = userForDeletion.getFirstname() + " " + userForDeletion.getLastname();
+		
+		List<Book> allBooks = loanService.findBooksUserLoaned(userId);
+		if (!allBooks.isEmpty()) {
+			
+			List<User> allUsers = userService.findAllUsers();
+			for (User user : allUsers) {
+				List<Book> allLoanedBooks = loanService.findBooksUserLoaned(user.getUserId());
+				user.setBookList(allLoanedBooks);
+			}
+			
+			StringBuilder allBookTitle = new StringBuilder();
+			for (Book book : allBooks) {
+				allBookTitle.append(book.getBookName() + ", ");
+			}
+			// Delete last comma
+			allBookTitle.deleteCharAt(allBookTitle.length() - 2);
+			
+			ModelAndView model = new ModelAndView();
+	    	model.addObject("msgBooks", "User " + userFullName + " cannot be deleted he has loaned the following books: " + allBookTitle);
+			model.addObject("allUsers", allUsers);
+			model.setViewName("user/all-users");
+			
+			return model;
+		}
 		
 		userService.deleteUser(userId);
 
@@ -91,7 +118,7 @@ public class UserController {
 		}
 		
 		ModelAndView model = new ModelAndView();
-    	model.addObject("msg", "User has been deleted successfully.");
+    	model.addObject("msg", "User " + userFullName + " has been deleted successfully.");
 		model.addObject("allUsers", allUsers);
 		model.setViewName("user/all-users");
 
