@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 public class Loan {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "book_loan_id", unique = true, nullable = false)
 	private Integer loanId;
 
