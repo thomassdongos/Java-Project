@@ -33,10 +33,33 @@ public class LoanController {
 	private UserService userService;
 
 	@RequestMapping(value = "/loan-books", headers = "Accept=application/json", method = RequestMethod.POST)
-	public ModelAndView loanBook(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = true) Integer userId) {
-
-		loanService.saveLoan(bookId, userId); 
+	public ModelAndView loanBook(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = false) Integer userId) {
+		
 		ModelAndView model = new ModelAndView();
+
+		if (userId == null) {
+			model.addObject("msgError", "Please select a user to loan the requested book.");
+			
+			List<Book> allBooks = bookService.findAll();
+			for (Book book : allBooks) {
+				List<User> userWithCurrentBook = loanService.findUsersWithBook(book.getBookId());
+				List<User> allUsers = userService.findAllUsers();
+				List<User> uniqueElementsFromBothList = new ArrayList<>();
+				// Unique element from allUsers list to fill the dropdown
+				uniqueElementsFromBothList.addAll(
+						allUsers.stream()
+				        .filter(user -> !userWithCurrentBook.contains(user))
+				        .collect(Collectors.toList()));
+				book.setUsersForLoan(uniqueElementsFromBothList);
+			}
+			
+			model.addObject("booksForLoan", allBooks);
+			model.setViewName("book/loan-books");
+
+			return model;
+		}
+		
+		loanService.saveLoan(bookId, userId); 
 		
 		List<Book> allBooks = bookService.findAll();
 		for (Book book : allBooks) {
@@ -51,7 +74,7 @@ public class LoanController {
 			book.setUsersForLoan(uniqueElementsFromBothList);
 		}
 
-		model.addObject("msg", "Loan has been completed successfully.");
+		model.addObject("msg", "The loan has been completed successfully.");
 		model.addObject("booksForLoan", allBooks);
 		model.setViewName("book/loan-books");
 
@@ -83,8 +106,33 @@ public class LoanController {
 	}
 	
 	@RequestMapping(value = "/return-books", headers = "Accept=application/json", method = RequestMethod.POST)
-	public ModelAndView returnBooks(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = true) Integer userId) {
+	public ModelAndView returnBooks(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = false) Integer userId) {
 
+		if (userId == null) {
+			
+			// I keep the book entities as unique
+			Set<Book> allBooks = new HashSet<>();
+			List<Book> bookList = new ArrayList<>();
+	 		
+			List<Loan> allLoaned = loanService.findAllBooksForReturn();
+			for (Loan loan : allLoaned) {
+				allBooks.add(loan.getBook());
+			}
+			bookList.addAll(allBooks);
+			
+			for (Book book : bookList) {
+				book.setUsersForLoan(loanService.findUsersWithBook(book.getBookId()));
+			}
+
+			ModelAndView model = new ModelAndView();
+			model.addObject("msgError", "Please select a user to return the requested book.");
+			model.addObject("booksForReturn", bookList);
+			model.setViewName("book/return-books");
+
+			return model;
+		}
+		
+		
 		loanService.returnBook(bookId, userId); 
 		
 		// I keep the book entities as unique
@@ -102,6 +150,7 @@ public class LoanController {
 		}
 
 		ModelAndView model = new ModelAndView();
+		model.addObject("msg", "The return has been completed successfully.");
 		model.addObject("booksForReturn", bookList);
 		model.setViewName("book/return-books");
 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<style>
+table td {
+	vertical-align: top;
+	border: solid 1px #888;
+	padding: 10px;
+}
+</style>
+
+<title>Error page</title>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<!-- Bootstrap core CSS -->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css"
+	rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/css/mdb.min.css"
+	rel="stylesheet">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome-animation/0.0.10/font-awesome-animation.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<link rel="shortcut icon"
+	href="https://mdbootstrap.com/wp-content/themes/mdbootstrap4/favicon.ico">
+
+<link th:href="@{/css/footer.css}" href="/css/footer.css"
+	rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div th:replace="/navbar :: navbar"></div>
+
+
+	<div class="container" style="margin-top: 5%">
+
+			<h1>Error Page</h1>
+			<table>
+			    <tr>
+			        <td>Date</td>
+			        <td th:text="${timestamp}"/>
+			    </tr>
+			    <tr>
+			        <td>Path</td>
+			        <td th:text="${path}"/>
+			    </tr>
+			    <tr>
+			        <td>Error</td>
+			        <td th:text="${error}"/>
+			    </tr>
+			    <tr>
+			        <td>Status</td>
+			        <td th:text="${status}"/>
+			    </tr>
+			    <tr>
+			        <td>Message</td>
+			        <td th:text="${message}"/>
+			    </tr>
+			    <tr>
+			        <td>Exception</td>
+			        <td th:text="${exception}"/>
+			    </tr>
+			    <tr>
+			        <td>Trace</td>
+			        <td>
+			            <pre th:text="${trace}"></pre>
+			        </td>
+			    </tr>
+			</table>
+			<p>
+				An error has occurred please return to the home page <a type="button" style="background-color: grey" href="#" th:href="@{/}" class="btn">Home page</a>
+			</p>
+			<p>
+				
+			</p>
+
+	</div>
+
+	<!-- container -->
+	<footer class="footer">
+		<div th:replace="/footer :: footer">Copyright &copy; Thomas
+			Sdongos</div>
+	</footer>
+
+	<!-- SCRIPTS -->
+	<!-- JQuery -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- Bootstrap tooltips -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+	<!-- Bootstrap core JavaScript -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+	<!-- MDB core JavaScript -->
+	<script type="text/javascript"
+		src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+	<script src="/js/rating.js" th:src="@{/js/rating.js}"></script>
+
+</body>
+</html>
