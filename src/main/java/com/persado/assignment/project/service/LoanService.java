@@ -38,18 +38,25 @@ public class LoanService {
 	 * 
 	 * @param bookId	The book ID
 	 * @param userId	The user ID
+	 * @throws Exception 
 	 */
-	public void saveLoan(Integer bookId, Integer userId) {
+	public boolean saveLoan(Integer bookId, Integer userId) {
+		
+		boolean userCanLoan = false;
 		
 		Book bookEnt = bookService.reduceAvailableCopies(bookId);
 		
-		Loan loan = new Loan();
-		loan.setUser(userService.findByUserId(userId));
-		loan.setBook(bookEnt);
-		loan.setLoanDate(LocalDate.now());
-		loan.setLoaned(true);
-		loan.setReturnedDate(null);
-		loanRepository.saveAndFlush(loan);
+		if (bookEnt != null) {
+			Loan loan = new Loan();
+			loan.setUser(userService.findByUserId(userId));
+			loan.setBook(bookEnt);
+			loan.setLoanDate(LocalDate.now());
+			loan.setLoaned(true);
+			loan.setReturnedDate(null);
+			loanRepository.saveAndFlush(loan);
+			userCanLoan = true;
+		} 
+		return userCanLoan;
 	}
 	
 	/**

@@ -64,6 +64,9 @@ public class BookService {
 	public Book reduceAvailableCopies(Integer bookId) {
 
 		Book bookEnt = bookRepository.findByBookId(bookId);
+		if (bookEnt.getAvailableCopies() - 1 < 0) {
+			return null;
+		}
 		bookEnt.setAvailableCopies(bookEnt.getAvailableCopies() - 1);
 		bookRepository.saveAndFlush(bookEnt);
 		return bookEnt;

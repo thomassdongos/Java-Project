@@ -38,7 +38,6 @@ public class LoanController {
 		ModelAndView model = new ModelAndView();
 
 		if (userId == null) {
-			model.addObject("msgError", "Please select a user to loan the requested book.");
 			
 			List<Book> allBooks = bookService.findAll();
 			for (Book book : allBooks) {
@@ -53,13 +52,14 @@ public class LoanController {
 				book.setUsersForLoan(uniqueElementsFromBothList);
 			}
 			
+			model.addObject("msgError", "Please select a user to loan the requested book.");
 			model.addObject("booksForLoan", allBooks);
 			model.setViewName("book/loan-books");
 
 			return model;
 		}
 		
-		loanService.saveLoan(bookId, userId); 
+		boolean userCanLoan = loanService.saveLoan(bookId, userId); 
 		
 		List<Book> allBooks = bookService.findAll();
 		for (Book book : allBooks) {
@@ -73,8 +73,12 @@ public class LoanController {
 			        .collect(Collectors.toList()));
 			book.setUsersForLoan(uniqueElementsFromBothList);
 		}
-
-		model.addObject("msg", "The loan has been completed successfully.");
+		
+		if (userCanLoan) {
+			model.addObject("msg", "The loan has been completed successfully.");
+		} else {
+			model.addObject("msgError", " User cannot loan the book there are no available copies.");
+		}
 		model.addObject("booksForLoan", allBooks);
 		model.setViewName("book/loan-books");
 
