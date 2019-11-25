@@ -86,5 +86,9 @@ public class LoanService {
 		return loanRepository.findBooksUserLoaned(userId);
 	}
 	
+	public int checkUserTotalLoans(Integer userId) {
+		
+		return loanRepository.findBooksUserLoaned(userId).size();
+	}
 	
 }
