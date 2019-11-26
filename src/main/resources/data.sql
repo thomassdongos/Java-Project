@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS user cascade;
-
 CREATE TABLE IF NOT EXISTS user (
     user_id integer not null auto_increment,
     firstname varchar(200),
@@ -8,8 +6,6 @@ CREATE TABLE IF NOT EXISTS user (
     total_book_loaned integer,
     primary key(user_id)
 );
-
-DROP TABLE IF EXISTS book cascade;
 
 CREATE TABLE IF NOT EXISTS book (
     book_id integer not null auto_increment,
@@ -20,8 +16,6 @@ CREATE TABLE IF NOT EXISTS book (
     available_copies integer,
     primary key(book_id)
 );
-
-DROP TABLE IF EXISTS book_loan cascade;
 
 CREATE TABLE IF NOT EXISTS book_loan (
     book_loan_id integer not null auto_increment,
