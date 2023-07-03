@@ -5,32 +5,30 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.persado.assignment.project.service.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
 import com.persado.assignment.project.model.User;
-import com.persado.assignment.project.service.BookService;
-import com.persado.assignment.project.service.LoanService;
-import com.persado.assignment.project.service.UserService;
 
 @RestController
 public class LoanController {
 
-	@Autowired
-	private LoanService loanService;
+	private final LoanService loanService;
 	
-	@Autowired
-	private BookService bookService;
+	private final BookService bookService;
 	
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	public LoanController( final LoanService loanService, final BookService bookService, final UserService userService) {
+		this.loanService = loanService;
+		this.bookService = bookService;
+		this.userService = userService;
+	}
 
 	@RequestMapping(value = "/loan-books", headers = "Accept=application/json", method = RequestMethod.POST)
 	public ModelAndView loanBook(@RequestParam(value = "bookId", required = true) Integer bookId, @RequestParam(value = "userId", required = false) Integer userId) {

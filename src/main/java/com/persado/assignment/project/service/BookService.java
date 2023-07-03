@@ -1,98 +1,21 @@
 package com.persado.assignment.project.service;
 
+import com.persado.assignment.project.model.Book;
+
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+public interface BookService {
+    void createBook(Book book);
 
-import com.persado.assignment.project.model.Book;
-import com.persado.assignment.project.repository.BookRepository;
+    List<Book> findAll();
 
-@Service
-public class BookService {
+    List<Book> findBooksForLoan();
 
-	@Autowired
-	private BookRepository bookRepository;
+    Book findByBookId(Integer bookId);
 
-	/**
-	 * Create a book entity to the database.
-	 * 
-	 * @param book	The book entity
-	 */
-	public void createBook(Book book) {
+    Book reduceAvailableCopies(Integer bookId);
 
-		book.setAvailableCopies(book.getTotalCopies());
-		bookRepository.save(book);
-	}
+    Book addAvailableCopies(Integer bookId);
 
-	/**
-	 * Find all books
-	 * 
-	 * @return List<Book>
-	 */
-	public List<Book> findAll() {
-
-		return bookRepository.findAll();
-	}
-	
-	/**
-	 * Find all books available for loan
-	 * 
-	 * @return List<Book>
-	 */
-	public List<Book> findBooksForLoan() {
-
-		return bookRepository.findBooksForLoan();
-	}
-	
-	/**
-	 * Find book entity by book ID
-	 * 
-	 * @param bookId	The book ID
-	 * @return	Book
-	 */
-	public Book findByBookId(Integer bookId) {
-		
-		return bookRepository.findByBookId(bookId);
-	}
-	
-	/**
-	 * Reduce available copies.
-	 * 
-	 * @param bookId	The book ID
-	 */
-	public Book reduceAvailableCopies(Integer bookId) {
-
-		Book bookEnt = bookRepository.findByBookId(bookId);
-		if (bookEnt.getAvailableCopies() - 1 < 0) {
-			return null;
-		}
-		bookEnt.setAvailableCopies(bookEnt.getAvailableCopies() - 1);
-		bookRepository.saveAndFlush(bookEnt);
-		return bookEnt;
-	}
-	
-	/**
-	 * Add available copies.
-	 * 
-	 * @param bookId	The book ID
-	 */
-	public Book addAvailableCopies(Integer bookId) {
-
-		Book bookEnt = bookRepository.findByBookId(bookId);
-		bookEnt.setAvailableCopies(bookEnt.getAvailableCopies() + 1);
-		bookRepository.saveAndFlush(bookEnt);
-		return bookEnt;
-	}
-	
-	/**
-	 * Delete book by ID.
-	 * 
-	 * @param bookId	The book ID
-	 */
-	public void deleteBook(Integer bookId) {
-		
-		bookRepository.deleteById(bookId);
-	}
-	
+    void deleteBook(Integer bookId);
 }

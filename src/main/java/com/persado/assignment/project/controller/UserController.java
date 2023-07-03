@@ -1,47 +1,47 @@
 package com.persado.assignment.project.controller;
 
 import java.util.List;
-
 import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.persado.assignment.project.service.LoanService;
+import com.persado.assignment.project.service.UserService;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.User;
-import com.persado.assignment.project.service.LoanService;
-import com.persado.assignment.project.service.UserService;
+
 
 
 @RestController
 public class UserController {
 
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private LoanService loanService;
-	
+	private final UserService userService;
+
+	private final  LoanService loanService;
+
+	public UserController(final UserService userService,final LoanService loanService) {
+		this.userService = userService;
+		this.loanService = loanService;
+	}
+
 	/**
-	 * 
-	 * 
+	 *
+	 *
 	 * @return
 	 */
 	@RequestMapping(value = { "/create-user" }, method = RequestMethod.GET)
 	public ModelAndView createUser() {
-		
+
 		ModelAndView model = new ModelAndView();
 		model.addObject("user", new User());
 		model.setViewName("user/create-user");
 
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/create-user" }, method = RequestMethod.POST)
 	public ModelAndView createUser(@Valid User user, BindingResult bindingResult) {
 		
