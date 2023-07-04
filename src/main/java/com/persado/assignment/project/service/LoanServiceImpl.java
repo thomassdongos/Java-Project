@@ -2,25 +2,28 @@ package com.persado.assignment.project.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
 import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.repository.LoanRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class LoanServiceImpl implements LoanService {
 
-	@Autowired
-	private BookServiceImpl bookService;
+	private  final BookServiceImpl bookService;
+
+	private final UserServiceImpl userService;
 	
-	@Autowired
-	private UserServiceImpl userService;
-	
-	@Autowired
-	private LoanRepository loanRepository;
-	
+	private final LoanRepository loanRepository;
+
+	public LoanServiceImpl(BookServiceImpl bookService, UserServiceImpl userService, LoanRepository loanRepository) {
+		this.bookService = bookService;
+		this.userService = userService;
+		this.loanRepository = loanRepository;
+	}
+
 	/**
 	 * Find all users
 	 * 
@@ -28,7 +31,7 @@ public class LoanServiceImpl implements LoanService {
 	 */
 	@Override
 	public List<Loan> findAllBooksForReturn() {
-		
+
 		return loanRepository.findAllBooksForReturn();
 	}
 	
@@ -40,8 +43,9 @@ public class LoanServiceImpl implements LoanService {
 	 * @throws Exception 
 	 */
 	@Override
+	@Transactional
 	public boolean saveLoan(Integer bookId, Integer userId) {
-		
+
 		boolean userCanLoan = false;
 		
 		Book bookEnt = bookService.reduceAvailableCopies(bookId);
@@ -67,14 +71,15 @@ public class LoanServiceImpl implements LoanService {
 	 */
 	@Override
 	public List<User> findUsersWithBook(Integer bookId) {
-		
+
 		return loanRepository.findUsersWithBook(bookId);
 	}
 	
 	
 	@Override
+	@Transactional
 	public void returnBook(Integer bookId, Integer userId) {
-		
+
 		bookService.addAvailableCopies(bookId);
 		
 		Loan loan = loanRepository.findBookLoaned(bookId, userId);
@@ -85,13 +90,13 @@ public class LoanServiceImpl implements LoanService {
 	
 	@Override
 	public List<Book> findBooksUserLoaned(Integer userId) {
-		
+
 		return loanRepository.findBooksUserLoaned(userId);
 	}
 	
 	@Override
 	public int checkUserTotalLoans(Integer userId) {
-		
+
 		return loanRepository.findBooksUserLoaned(userId).size();
 	}
 	

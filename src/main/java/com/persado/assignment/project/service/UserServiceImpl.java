@@ -1,25 +1,29 @@
 package com.persado.assignment.project.service;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.persado.assignment.project.model.User;
 import com.persado.assignment.project.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired
-	private UserRepository userRepository;
-	
+	private final UserRepository userRepository;
+
+	public UserServiceImpl(final UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
 	/**
 	 * Create a user
 	 * 
 	 * @param user	The user entity
 	 */
 	@Override
+	@Transactional
 	public void createUser(User user) {
-		
+
 		userRepository.save(user);
 	}
 	
@@ -30,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public List<User> findAllUsers() {
-		
+
 		return userRepository.findAll();
 	}
 	
@@ -42,13 +46,14 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User findByUserId(Integer userId) {
-		
+
 		return userRepository.findByUserId(userId);
 	}
 	
 	@Override
+	@Transactional
 	public void deleteUser(Integer userId) {
-		
+
 		userRepository.deleteById(userId);
 	}
 	

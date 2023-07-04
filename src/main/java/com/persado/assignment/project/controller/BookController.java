@@ -55,8 +55,13 @@ public class BookController {
 			model.setViewName("book/create-book");
 			return model;
 		}
-		
+		try{
 		bookService.createBook(book);
+		}catch(DatabaseOperationException e){
+			model.addObject("msgError", e.getMessage());
+			model.setViewName("error");
+			return model;
+		}
     	model.addObject("msg", "Book has been added to the library successfully.");
     	model.addObject("book", new Book());
 		model.setViewName("book/create-book");
