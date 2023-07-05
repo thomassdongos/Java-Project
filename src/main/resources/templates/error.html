@@ -44,39 +44,14 @@ table td {
 
 			<h1>Error Page</h1>
 			<table>
-			    <tr>
-			        <td>Date</td>
-			        <td th:text="${timestamp}"/>
+				<tr>
+			        <td>An Error Has Occurred:</td>
+			        <td th:text="${msgError}"/>
 			    </tr>
-			    <tr>
-			        <td>Path</td>
-			        <td th:text="${path}"/>
-			    </tr>
-			    <tr>
-			        <td>Error</td>
-			        <td th:text="${error}"/>
-			    </tr>
-			    <tr>
-			        <td>Status</td>
-			        <td th:text="${status}"/>
-			    </tr>
-			    <tr>
-			        <td>Message</td>
-			        <td th:text="${message}"/>
-			    </tr>
-			    <tr>
-			        <td>Exception</td>
-			        <td th:text="${exception}"/>
-			    </tr>
-			    <tr>
-			        <td>Trace</td>
-			        <td>
-			            <pre th:text="${trace}"></pre>
-			        </td>
-			    </tr>
+
 			</table>
 			<p>
-				An error has occurred please return to the home page <a type="button" style="background-color: grey" href="#" th:href="@{/}" class="btn">Home page</a>
+				Return to the home page <a type="button" style="background-color: grey" href="#" th:href="@{/}" class="btn">Home page</a>
 			</p>
 			<p>
 				

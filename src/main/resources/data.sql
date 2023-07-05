@@ -28,3 +28,5 @@ CREATE TABLE IF NOT EXISTS book_loan (
     foreign key(user_id) references user(user_id),
     foreign key(book_id) references book(book_id)
 );
+
+--Mandatory indexes are created automatically by H2

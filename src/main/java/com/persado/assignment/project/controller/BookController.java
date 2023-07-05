@@ -3,23 +3,16 @@ package com.persado.assignment.project.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.persado.assignment.project.service.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.User;
-import com.persado.assignment.project.service.BookService;
-import com.persado.assignment.project.service.LoanService;
-import com.persado.assignment.project.service.UserService;
-
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,15 +20,18 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 public class BookController {
 
-	@Autowired
-	BookService bookService;
-	
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	LoanService loanService;
-	
+	private final BookService bookService;
+
+	private final UserService userService;
+
+	private final LoanService loanService;
+
+	public BookController(final BookService bookService, final UserService userService, final LoanService loanService) {
+		this.bookService = bookService;
+		this.userService = userService;
+		this.loanService = loanService;
+	}
+
 	/**
 	 * 
 	 * 
@@ -59,8 +55,13 @@ public class BookController {
 			model.setViewName("book/create-book");
 			return model;
 		}
-		
+		try{
 		bookService.createBook(book);
+		}catch(DatabaseOperationException e){
+			model.addObject("msgError", e.getMessage());
+			model.setViewName("error");
+			return model;
+		}
     	model.addObject("msg", "Book has been added to the library successfully.");
     	model.addObject("book", new Book());
 		model.setViewName("book/create-book");
