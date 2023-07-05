@@ -1,5 +1,6 @@
 package com.persado.assignment.project.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,5 +26,8 @@ public interface LoanRepository extends JpaRepository<Loan, Integer> {
 	
 	@Query(value = "SELECT e FROM #{#entityName} e where e.user.userId = :userId AND e.book.bookId = :bookId AND e.isLoaned = TRUE")
 	Loan findBookLoaned(@Param("bookId") Integer bookId, @Param("userId") Integer userId);
-	
+
+	List<Loan> findByLoanDateBetween(LocalDate startDate, LocalDate endDate);
+
+
 }

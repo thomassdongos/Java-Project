@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import com.persado.assignment.project.service.*;
+import com.persado.assignment.project.util.PdfReportGenerator;
 import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.model.Loan;
@@ -172,5 +171,14 @@ public class LoanController {
 
 			return model;
 		}
+
+
+	}
+	@GetMapping("/loans/report")
+	@Scheduled(cron = "0 0 12 * * MON")
+	public String generateLoanReport() {
+		List<Loan> loans = loanService.getLoansLastWeek();
+		PdfReportGenerator.generateReport(loans);
+		return "Loan report generated successfully.";
 	}
 }

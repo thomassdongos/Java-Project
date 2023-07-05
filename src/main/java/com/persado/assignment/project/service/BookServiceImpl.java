@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.persado.assignment.project.model.Book;
 import com.persado.assignment.project.repository.BookRepository;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service

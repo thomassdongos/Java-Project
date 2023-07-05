@@ -99,5 +99,12 @@ public class LoanServiceImpl implements LoanService {
 
 		return loanRepository.findBooksUserLoaned(userId).size();
 	}
+
+	@Override
+	public List<Loan> getLoansLastWeek() {
+		LocalDate startDate = LocalDate.now().minusWeeks(1);
+		LocalDate endDate = LocalDate.now();
+		return loanRepository.findByLoanDateBetween(startDate, endDate);
+	}
 	
 }

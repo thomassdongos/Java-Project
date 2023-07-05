@@ -18,4 +18,6 @@ public interface LoanService {
     List<Book> findBooksUserLoaned(Integer userId);
 
     int checkUserTotalLoans(Integer userId);
+
+    List<Loan> getLoansLastWeek();
 }
